@@ -1,11 +1,13 @@
 package com.kanechan.restaurante.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kanechan.restaurante.dto.CategoriaDTO;
 import com.kanechan.restaurante.model.Categoria;
 import com.kanechan.restaurante.repositories.CategoriaRepository;
 
@@ -16,7 +18,11 @@ public class CategoriaService {
 	private CategoriaRepository categoriaRepository;
 	
 	@Transactional(readOnly = true)
-	public List<Categoria> findAll(){
-		return categoriaRepository.findAll();
+	public List<CategoriaDTO> findAll(){
+		List<Categoria> categorias =  categoriaRepository.findAll();
+		
+		return categorias.stream()
+				.map(CategoriaDTO::new)
+				.collect(Collectors.toList());
 	}
 }

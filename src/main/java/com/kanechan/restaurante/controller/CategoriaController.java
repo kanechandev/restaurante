@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kanechan.restaurante.model.Categoria;
+import com.kanechan.restaurante.dto.CategoriaDTO;
 import com.kanechan.restaurante.services.CategoriaService;
 
 
@@ -20,8 +20,8 @@ public class CategoriaController {
 	private CategoriaService categoriaService;
 
 	@GetMapping
-	public ResponseEntity<List<Categoria>> findAll(){
-		List<Categoria> categorias = categoriaService.findAll(); 
+	public ResponseEntity<List<CategoriaDTO>> findAll(){
+		List<CategoriaDTO> categorias = categoriaService.findAll(); 
 		
 		return ResponseEntity.ok().body(categorias);
 	}
