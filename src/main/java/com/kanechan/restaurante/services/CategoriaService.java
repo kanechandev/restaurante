@@ -29,9 +29,28 @@ public class CategoriaService {
 				.collect(Collectors.toList());
 	}
 
+	@Transactional(readOnly = true)
 	public CategoriaDTO findById(Long id) {
 		Optional<Categoria> obj = categoriaRepository.findById(id);
 		Categoria categoria = obj.orElseThrow(() -> new EntityNotFoundException("Recurso não encontrado."));
+		
+		return new CategoriaDTO(categoria);
+	}
+
+	@Transactional
+	public CategoriaDTO salvarCategoria(CategoriaDTO categoriaDTO) {
+		Categoria categoria = new Categoria();
+		categoria.setNome(categoriaDTO.getNome());
+		categoria= categoriaRepository.save(categoria);
+		return new CategoriaDTO(categoria);
+	}
+
+	@Transactional
+	public CategoriaDTO atualizarCategoria(Long id, CategoriaDTO categoriaDTO) {
+		Categoria categoria = categoriaRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Id não encontrado: "+ id));
+		
+		categoria.setNome(categoriaDTO.getNome());
 		
 		return new CategoriaDTO(categoria);
 	}
