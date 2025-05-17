@@ -1,13 +1,13 @@
 package com.kanechan.restaurante.services;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,12 +27,10 @@ public class CategoriaService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CategoriaService.class);
 	
 	@Transactional(readOnly = true)
-	public List<CategoriaDTO> findAll(){
-		List<Categoria> categorias =  categoriaRepository.findAll();
+	public Page<CategoriaDTO> findAllPaged(PageRequest pageRequest){
+		Page<Categoria> categorias =  categoriaRepository.findAll(pageRequest);
 		
-		return categorias.stream()
-				.map(CategoriaDTO::new)
-				.collect(Collectors.toList());
+		return categorias.map(x -> new CategoriaDTO(x));
 	}
 
 	@Transactional(readOnly = true)
