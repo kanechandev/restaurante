@@ -9,16 +9,31 @@ import java.util.Set;
 import com.kanechan.restaurante.model.Categoria;
 import com.kanechan.restaurante.model.Produto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 public class ProdutoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	
+	@NotBlank(message = "Campo nome é obrigatório")
 	private String nome;
+	
+	@NotNull(message = "Preço é um campo obrigatório")
+	@Positive(message = "O preço deve de ser maior que zero")
 	private Double preco;
+	
+	@NotBlank(message = "Descrição é um campo obrigatório")
 	private String descricao;
 	private String imgUrl;
 	private LocalDateTime createdAt;
 	
+	@NotEmpty(message = "O produto deve de ter ao menos uma categoria relacionada")
+	@Schema(description = "Lista de categorias vinculadas. Ex: [{\"id\": 1}, {\"id\": 5}]")
 	private List<CategoriaDTO> categorias = new ArrayList<>();
 
 	public ProdutoDTO() {
